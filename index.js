@@ -13,7 +13,7 @@ var connection;
 
 Functions.startUp = async () => {
     console.log("[DEBUG] BOT STARTING UP")
-    let ticketCount = 0
+    const ticketCount = Object.keys(Data).length; 
     client.user.setActivity({name: `${ticketCount} orders`, type: "WATCHING"})
 
     // connecting sql
@@ -25,6 +25,15 @@ Functions.startUp = async () => {
     // });
 
     // await connection.connect();
+
+
+    updateTicketCount = () => {
+        const ticketCount = Object.keys(Data).length;    
+        client.user.setActivity({name: `${ticketCount} orders`, type: "WATCHING"})
+        console.log("[DEBUG] UPDATED ACTIVITY")
+    }
+
+    setInterval(updateTicketCount, 20000)
 
     return;
 }
