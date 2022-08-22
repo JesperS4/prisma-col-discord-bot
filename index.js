@@ -136,16 +136,16 @@ Functions.createTicketChannel = async (type, reaction, user) => {
             const sr = reaction.message.guild.roles.cache.find(role => role.id === "1010912090413867038")
             const everyone = reaction.message.guild.roles.cache.find(role => role.name === '@everyone')
             x.updateOverwrite(sr, {
-              SEND_MESSAGES: true,
-              VIEW_CHANNEL: true,
+                SEND_MESSAGES: true,
+                VIEW_CHANNEL: true,
             });
             x.updateOverwrite(everyone, {
-              SEND_MESSAGES: false,
-              VIEW_CHANNEL: false,
+                SEND_MESSAGES: false,
+                VIEW_CHANNEL: false,
             });
             x.updateOverwrite(reaction.message.author, {
-              SEND_MESSAGES: true,
-              VIEW_CHANNEL: true,
+                SEND_MESSAGES: true,
+                VIEW_CHANNEL: true,
             });
 
 
@@ -157,6 +157,7 @@ Functions.createTicketChannel = async (type, reaction, user) => {
             .addField("Wachtrij posititie", "Op dit moment sta je `"+position+"` in de wachtrij, je krijgt een update wanneer je een plek bent opgeschroven.")
             .setFooter("Prisma Scripts ©")
             .setTimestamp()
+
 
 
             x.send(embed)
