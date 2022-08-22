@@ -16,30 +16,43 @@ Functions.startUp = async () => {
     const ticketCount = Object.keys(Data).length; 
     client.user.setActivity({name: `${ticketCount} orders`, type: "WATCHING"})
 
-    // connecting sql
-    // connection = mysql.createConnection({
-    // host     : 'localhost',
-    // user     : 'root',
-    // password : '',
-    // database : 'bot'
-    // });
+    
+    connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database : 'bot'
+    });
 
-    // await connection.connect();
+    await connection.connect( () => {
+        console.log("[DEBUG] DATABASE CONNECTED")
+    });
 
 
-    updateTicketCount = () => {
-        const ticketCount = Object.keys(Data).length;    
-        client.user.setActivity({name: `${ticketCount} orders`, type: "WATCHING"})
-        console.log("[DEBUG] UPDATED ACTIVITY")
-    }
-
-    setInterval(updateTicketCount, 20000)
 
     return;
 }
 
 Functions.setupData = async () => {
+    connection.query('SELECT * FROM customorders', (error, results, fields) => {
+        if (error) throw error;
+        
+        results.forEach( (v) => {
+            Data[v.discordid] = {
+                discordID: v.discordid,
+                channelID: v.channelid,
+                position: v.position
+            }
+        })
 
+        console.log(Data)
+    })
+}
+
+Functions.updateTicketCount = () => {
+    const ticketCount = Object.keys(Data).length;    
+    client.user.setActivity({name: `${ticketCount} orders`, type: "WATCHING"})
+    console.log("[DEBUG] UPDATED ACTIVITY")
 }
 
 client.on("ready", async () => {
